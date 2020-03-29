@@ -1,0 +1,4 @@
+LAYOUT(ExempleWindowUltimateOpenGL, 300, 288)
+	ITEM(UltimateOpenGLExemple, glOne, LeftPosZ(24, 248).TopPosZ(20, 232))
+END_LAYOUT
+

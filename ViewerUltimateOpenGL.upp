@@ -1,0 +1,19 @@
+description "Exemple of using UltimateOpenGL\377";
+
+uses
+	UltimateOpenGL,
+	CtrlLib,
+	GLCtrl;
+
+options(MSC) /std:c++latest;
+
+options(GCC WIN32) -std=c++17;
+
+file
+	ViewerUltimateOpenGL.cpp,
+	VisualCamera.h;
+
+mainconfig
+	"" = "GUI",
+	"" = "USEMALLOC";
+
