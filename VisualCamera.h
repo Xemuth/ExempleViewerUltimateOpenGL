@@ -6,7 +6,6 @@
 class VisualCamera : public CameraEuler{ //By redefining ProcessKeyboard and processMouse, I ensure the camera wont react to it ! but however will have their own routine of displacement on object it focus
 	protected:
 		GameObject* objectToFocus = nullptr;
-		
 	public:
 		VisualCamera(){}
 		VisualCamera(VisualCamera& camera):CameraEuler(*this){
@@ -19,12 +18,10 @@ class VisualCamera : public CameraEuler{ //By redefining ProcessKeyboard and pro
 		}
 		virtual VisualCamera* Clone(){return new VisualCamera(*this);}
 		virtual ~VisualCamera(){}
-		
 		VisualCamera& SetObjectToFocus(GameObject& toFocus){
 			objectToFocus = &toFocus;
 			return *this;
 		}
-		
 		virtual VisualCamera& ProcessKeyboardMouvement(Camera_Movement direction){
 			if(objectToFocus){
 				//We gonna do nothings on keyboard
@@ -42,6 +39,24 @@ class VisualCamera : public CameraEuler{ //By redefining ProcessKeyboard and pro
 			}
 			return *this;
 		}
+		virtual bool ProcessKeyBoard(unsigned long Key,int count){
+			if(objectToFocus){
+				if( Key == Upp::K_Z){
+					objectToFocus->GetTransform().Move(glm::vec3(0,1 * GetScene().GetContext().GetDeltaTime(),0));
+					return true;
+				}else if( Key == Upp::K_S){
+					objectToFocus->GetTransform().Move(glm::vec3(0,-1 * GetScene().GetContext().GetDeltaTime(),0));
+					return true;
+				}else if( Key == Upp::K_Q){
+					objectToFocus->GetTransform().Move(glm::vec3(-1 * GetScene().GetContext().GetDeltaTime(),0,0));
+					return true;
+				}else if( Key == Upp::K_D){
+					objectToFocus->GetTransform().Move(glm::vec3(1 * GetScene().GetContext().GetDeltaTime(),0,0));
+					return true;
+				}
+			}
+		}
+		
 		virtual VisualCamera& ProcessMouseScroll(float yoffset){
 			if(objectToFocus){
 				//We just gonna Zoom or dezome the object by scalling our camera position;
@@ -55,7 +70,6 @@ class VisualCamera : public CameraEuler{ //By redefining ProcessKeyboard and pro
 					//Zome the object
 					transform.Move(glm::vec3(0,0,-1));
 				}
-				Upp::Cout() << pos.z << Upp::EOL;
 			}
 			return *this;
 		}

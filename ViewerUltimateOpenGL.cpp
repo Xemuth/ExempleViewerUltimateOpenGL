@@ -16,12 +16,15 @@ struct UltimateOpenGLExemple : GLCtrl{
 
 			Scene& sc = context.CreateScene("scene1");
 
+			sc.CreateLight<DirLight>("soleil");
+
 			VisualCamera& cam3 = sc.CreateCamera<VisualCamera>("StaticVisualCamera");
 			cam3.DisableRoll().SetMouvementSpeed(60.0f).SetFOV(45.0f).GetTransform().SetNewPosition(glm::vec3(0.0f,0.0f,15.0f));
 
 			sc.GetSkyBox().SetColor(159,208,225);
 			sc.CreateGameObject<Object3D>("Upp").LoadModel(TransformFilePath("\\obj upp\\upp.obj")).GetTransform().SetNewScale(glm::vec3(0.05f,0.05f,0.05f));
 			cam3.SetObjectToFocus(sc.GetGameObject<Object3D>("Upp"));
+			
 			sc.Load();
 			isLoaded=true;
 		}
@@ -34,15 +37,11 @@ struct UltimateOpenGLExemple : GLCtrl{
 		HSizePos(1, 1).VSizePos(1, 1);
 	}
 	virtual bool Key(dword key,int count){
-		if( key == K_Z){
-			//Exemple of key press
-			//context.GetActiveScene().GetActiveCamera().ProcessKeyboardMouvement(CM_FORWARD);
+		if( key == Upp::K_ESCAPE){
+			topWindow->Close();
 			return true;
 		}
-		if( key == K_ESCAPE){
-			topWindow->Close();
-		}
-		return false;
+		return context.GetActiveScene().GetActiveCamera().ProcessKeyBoard(key,count);
 	}
 	virtual void MouseMove(Point p, dword) {
 		if(isLoaded){
